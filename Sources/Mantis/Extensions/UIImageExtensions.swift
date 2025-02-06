@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
     func cgImageWithFixedOrientation() -> CGImage? {
         if imageOrientation == .up {
             return cgImage
