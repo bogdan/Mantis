@@ -52,6 +52,36 @@ public extension UIImage {
         return context.makeImage()
     }
     
+    
+    private func buildOrientationTransform(_ orientation: UIImage.Orientation, width: CGFloat, height: CGFloat) -> CGAffineTransform {
+        var transform = CGAffineTransform.identity
+
+        if (orientation == .down || orientation == .downMirrored) {
+            transform = transform.translatedBy(x: width, y: height)
+            transform = transform.rotated(by: .pi)
+        }
+        else if (orientation == .left || orientation == .leftMirrored) {
+            transform = transform.translatedBy(x: width, y: 0)
+            transform = transform.rotated(by: CGFloat.pi / 2)
+        }
+        else if (orientation == .right || orientation == .rightMirrored) {
+            transform = transform.translatedBy(x: 0, y: height)
+            transform = transform.rotated(by: -(CGFloat.pi / 2))
+        }
+        
+        if (orientation == .upMirrored || orientation == .downMirrored) {
+            transform = transform.translatedBy(x: width, y: 0);
+        } else if (orientation == .leftMirrored || orientation == .rightMirrored) {
+            transform = transform.translatedBy(x: height, y: 0)
+        }
+        
+        if [.upMirrored, .leftMirrored, .downMirrored, .rightMirrored].contains(orientation) {
+            transform = transform.scaledBy(x: -1, y: 1)
+        }
+        return transform
+    }
+
+    
     func isHorizontal() -> Bool {
         return size.width > size.height
     }
@@ -78,7 +108,7 @@ public extension UIImage {
                 return nil
             }
             
-            return UIImage(cgImage: transformedCGImage)
+            return UIImage(cgImage: transformedCGImage, scale: 1, orientation: .up)
         } catch {
             print("*** Failed to get transfromed image ***")
 
@@ -179,33 +209,5 @@ extension UIImage {
             
             return path
         }
-    }
-    
-    private func buildOrientationTransform(_ orientation: UIImage.Orientation, width: CGFloat, height: CGFloat) -> CGAffineTransform {
-        var transform = CGAffineTransform.identity
-
-        if (orientation == .down || orientation == .downMirrored) {
-            transform = transform.translatedBy(x: width, y: height)
-            transform = transform.rotated(by: .pi)
-        }
-        else if (orientation == .left || orientation == .leftMirrored) {
-            transform = transform.translatedBy(x: width, y: 0)
-            transform = transform.rotated(by: CGFloat.pi / 2)
-        }
-        else if (orientation == .right || orientation == .rightMirrored) {
-            transform = transform.translatedBy(x: 0, y: height)
-            transform = transform.rotated(by: -(CGFloat.pi / 2))
-        }
-        
-        if (orientation == .upMirrored || orientation == .downMirrored) {
-            transform = transform.translatedBy(x: width, y: 0);
-        } else if (orientation == .leftMirrored || orientation == .rightMirrored) {
-            transform = transform.translatedBy(x: height, y: 0)
-        }
-        
-        if [.upMirrored, .leftMirrored, .downMirrored, .rightMirrored].contains(orientation) {
-            transform = transform.scaledBy(x: -1, y: 1)
-        }
-        return transform
     }
 }
