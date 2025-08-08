@@ -9,7 +9,8 @@ import UIKit
 
 public extension UIImage {
     func cgImageWithFixedOrientation() -> CGImage? {
-        if imageOrientation == .up {
+        let orientation = imageOrientation
+        if orientation == .up {
             return cgImage
         }
         
@@ -17,37 +18,9 @@ public extension UIImage {
             return nil
         }
         
-        let width  = size.width
-        let height = size.height
-        
-        var transform = CGAffineTransform.identity
-        
-        switch imageOrientation {
-        case .down, .downMirrored:
-            transform = transform.translatedBy(x: width, y: height)
-            transform = transform.rotated(by: .pi)
-        case .left, .leftMirrored:
-            transform = transform.translatedBy(x: width, y: 0)
-            transform = transform.rotated(by: 0.5 * .pi)
-        case .right, .rightMirrored:
-            transform = transform.translatedBy(x: 0, y: height)
-            transform = transform.rotated(by: -0.5 * .pi)
-        case .up, .upMirrored:
-            break
-        @unknown default:
-            break
-        }
-        
-        switch imageOrientation {
-        case .upMirrored, .downMirrored:
-            transform = transform.translatedBy(x: width, y: 0)
-            transform = transform.scaledBy(x: -1, y: 1)
-        case .leftMirrored, .rightMirrored:
-            transform = transform.translatedBy(x: height, y: 0)
-            transform = transform.scaledBy(x: -1, y: 1)
-        default:
-            break
-        }
+        let sideways = [.right, .rightMirrored, .left, .leftMirrored].contains(orientation)
+        let width  = sideways ? size.height : size.width
+        let height = sideways ? size.width : size.height
         
         var context = CGContext(
             data: nil,
@@ -67,14 +40,14 @@ public extension UIImage {
             return nil
         }
         
-        context.concatenate(transform)
+        context.concatenate(buildOrientationTransform(orientation, width: width, height: height))
         
-        switch imageOrientation {
-        case .left, .leftMirrored, .right, .rightMirrored:
-            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: height, height: width))
-        default:
-            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        }
+//        switch imageOrientation {
+//        case .left, .leftMirrored, .right, .rightMirrored:
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+//        default:
+//            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+//        }
         
         return context.makeImage()
     }
@@ -206,5 +179,33 @@ extension UIImage {
             
             return path
         }
+    }
+    
+    private func buildOrientationTransform(_ orientation: UIImage.Orientation, width: CGFloat, height: CGFloat) -> CGAffineTransform {
+        var transform = CGAffineTransform.identity
+
+        if (orientation == .down || orientation == .downMirrored) {
+            transform = transform.translatedBy(x: width, y: height)
+            transform = transform.rotated(by: .pi)
+        }
+        else if (orientation == .left || orientation == .leftMirrored) {
+            transform = transform.translatedBy(x: width, y: 0)
+            transform = transform.rotated(by: CGFloat.pi / 2)
+        }
+        else if (orientation == .right || orientation == .rightMirrored) {
+            transform = transform.translatedBy(x: 0, y: height)
+            transform = transform.rotated(by: -(CGFloat.pi / 2))
+        }
+        
+        if (orientation == .upMirrored || orientation == .downMirrored) {
+            transform = transform.translatedBy(x: width, y: 0);
+        } else if (orientation == .leftMirrored || orientation == .rightMirrored) {
+            transform = transform.translatedBy(x: height, y: 0)
+        }
+        
+        if [.upMirrored, .leftMirrored, .downMirrored, .rightMirrored].contains(orientation) {
+            transform = transform.scaledBy(x: -1, y: 1)
+        }
+        return transform
     }
 }
