@@ -2,6 +2,55 @@
 
 -----
 
+## [2.26.0](https://www.github.com/guoyingtao/Mantis/compare/v2.25.3...v2.26.0) (2025-06-20)
+
+
+### Features
+
+* add headless crop support ([#463](https://www.github.com/guoyingtao/Mantis/issues/463)) ([22994b8](https://www.github.com/guoyingtao/Mantis/commit/22994b8a642c2b10752f27a91c4bdb5ba394f6bf))
+
+### [2.25.3](https://www.github.com/guoyingtao/Mantis/compare/v2.25.2...v2.25.3) (2025-05-30)
+
+
+### Bug Fixes
+
+* Add macCatalyst as a supported platform in Package.swift ([941d4c4](https://www.github.com/guoyingtao/Mantis/commit/941d4c45fa393a2e937e69f5d365d46743d5583c))
+
+### [2.25.2](https://www.github.com/guoyingtao/Mantis/compare/v2.25.1...v2.25.2) (2025-05-25)
+
+
+### Bug Fixes
+
+* drop macOS support and update min support version to v12 for iOS ([#452](https://www.github.com/guoyingtao/Mantis/issues/452)) ([a977c8c](https://www.github.com/guoyingtao/Mantis/commit/a977c8c67ee4934eabc22d4a44a11dcc81a215eb))
+
+### [2.25.1](https://www.github.com/guoyingtao/Mantis/compare/v2.25.0...v2.25.1) (2025-05-16)
+
+
+### Bug Fixes
+
+* fix the wrong parameter issue for createBackupCGContext ([#447](https://www.github.com/guoyingtao/Mantis/issues/447)) ([d7c7c3b](https://www.github.com/guoyingtao/Mantis/commit/d7c7c3b50c614d01ae6e1d61b058fc0d50820e6c))
+
+## [2.25.0](https://www.github.com/guoyingtao/Mantis/compare/v2.24.0...v2.25.0) (2025-04-06)
+
+
+### Features
+
+* add ImageCropperView wrapped for SwiftUI users ([fd33295](https://www.github.com/guoyingtao/Mantis/commit/fd332959193801990f7e32ef8c00ca4c0db0fe91))
+
+## [2.24.0](https://www.github.com/guoyingtao/Mantis/compare/v2.23.2...v2.24.0) (2025-03-26)
+
+
+### Features
+
+* make Transformation and CropRegion completely public ([#437](https://www.github.com/guoyingtao/Mantis/issues/437)) ([0ffcbd7](https://www.github.com/guoyingtao/Mantis/commit/0ffcbd7764c2b662479785c1cefeae78f246b36c))
+
+### [2.23.2](https://www.github.com/guoyingtao/Mantis/compare/v2.23.1...v2.23.2) (2025-02-10)
+
+
+### Bug Fixes
+
+* fix the issue that rotation control jumps during orientation change ([#433](https://www.github.com/guoyingtao/Mantis/issues/433)) ([2b08f10](https://www.github.com/guoyingtao/Mantis/commit/2b08f10dd9d171a61eadcb72440e17b19555a63c))
+
 ### [2.23.1](https://www.github.com/guoyingtao/Mantis/compare/v2.23.0...v2.23.1) (2024-10-28)
 
 
